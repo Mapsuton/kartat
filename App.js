@@ -12,9 +12,12 @@ export default function App() {
   const [long, setLong] = useState('0');
   const [title, setTitle] = useState('');
 
-  // .then(responseJson => setLat(responseJson.results.locations.latLng.lat))
-  // .then(responseJson => setLong(responseJson.results.locations.latLng.lng))
-  // .then(responseJson => setTitle(responseJson.results.providedLocation.location))
+  const initial = {
+    latitude: 60.200692,
+    longitude: 24.934302,
+    latitudeDelta: 0.0322,
+    longitudeDelta: 0.0221,
+  }
 
 const getData = async () => {
   console.log(hakusana);
@@ -27,13 +30,10 @@ const getData = async () => {
       throw error;
   //Alert.alert('Error', error);
   });
-  setLong(results.locations.latLng.lat);
-  setLat(results.locations.latLng.lng);
-  setTitle(results.providedLocation.location);
+  setLat(koordinaatit.locations.latLng.lat);
+  setLong(koordinaatit.locations.latLng.lng)
   setHakusana('');
 };
-
-useEffect(() => {getData() }, []);
 
   return (
     <View style={styles.container}>
@@ -41,9 +41,10 @@ useEffect(() => {getData() }, []);
         style={{ flex: 1,
         width: '100%',
         height: '100%' }}
+        initialRegion={initial}
         region={{
-          latitude: parseFloat(lat),
-          longitude: parseFloat(long)
+          latitude: {lat},
+          longitude: {long}
         }}
       >
         <Marker coordinate={{
@@ -73,9 +74,3 @@ const styles = StyleSheet.create({
   },
 });
 
-// initialRegion={{
-//   latitude: 60.200692,
-//   longitude: 24.934302,
-//   latitudeDelta: 0.0322,
-//   longitudeDelta: 0.0221,
-// }}
